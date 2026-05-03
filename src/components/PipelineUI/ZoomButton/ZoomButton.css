@@ -7,10 +7,20 @@
     padding-left: 1rem;
     padding-block: 0.5rem;
     padding-right: 0.75rem;
-    border-radius: 9999px   ;
-    background: #ff0000;
+    border-radius: 9999px;
+    transition: background 0.35s cubic-bezier(0.31, 0.94, 0.34, 1.00);
+    cursor: pointer;
+}
+
+.zoom-btn-wrapper:hover {
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .zoom-btn-wrapper > span{
     font-size: 0.75rem;
+    width: 2rem;
+}
+
+.menu-wrapper {
+    display: relative;
 }

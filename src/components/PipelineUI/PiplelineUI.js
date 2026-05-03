@@ -12,11 +12,8 @@ import { LLMNode } from "../../nodes/llmNode";
 import { OutputNode } from "../../nodes/outputNode";
 import { TextNode } from "../../nodes/textNode";
 
-import ZoomButton from "./ZoomButton/ZoomButton";
-
 import "reactflow/dist/style.css";
 import "./PiplelineUI.css";
-import MapButton from "./MapButton/MapButton";
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
@@ -35,6 +32,7 @@ const selector = (state) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  showMiniMap: state.showMiniMap,
 });
 
 export const PipelineUI = () => {
@@ -48,6 +46,7 @@ export const PipelineUI = () => {
     onNodesChange,
     onEdgesChange,
     onConnect,
+    showMiniMap,
   } = useStore(selector, shallow);
 
   const getInitNodeData = (nodeID, type) => {
@@ -118,13 +117,22 @@ export const PipelineUI = () => {
             variant="dots"
           />
           <Controls />
-          {/* <MiniMap /> */}
-          <div className="internal-ui-wrapper">
-            <div>
-              <MapButton />
-              <ZoomButton />
-            </div>
-          </div>
+          <MiniMap
+            nodeColor={(node) => {
+              if (node.type === "input") return "#6ede87";
+              if (node.type === "output") return "#ff0072";
+              return "#999";
+            }}
+            nodeStrokeWidth={3}
+            nodeBorderRadius={4}
+            maskColor="rgba(0, 0, 0, 0.2)"
+            style={{
+              backgroundColor: "#1e1e1e",
+              borderRadius: "10px",
+              marginBottom: "4rem",
+              opacity: 0,
+            }}
+          />
         </ReactFlow>
       </div>
     </>

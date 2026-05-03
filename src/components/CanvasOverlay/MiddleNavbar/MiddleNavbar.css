@@ -1,0 +1,39 @@
+
+
+.middle-nav-wrapper {
+    background: #272727;
+    display: flex;
+    gap: 0.3rem;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+}
+
+.middle-nav-wrapper > div {
+    padding-block: 0.6rem;
+    padding-inline: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 0.3rem;
+
+     transition: 
+        background 0.25s cubic-bezier(0.34, 0.80, 0.34, 1.00),
+        transform 0.2s cubic-bezier(0.34, 0.80, 0.34, 1.00);
+}
+
+.middle-nav-wrapper > div > svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    stroke: white;
+    stroke-width: 2;
+
+    transition: stroke 0.25s cubic-bezier(0.34, 0.80, 0.34, 1.00);
+}
+
+.middle-nav-wrapper > div.active {
+    background: white;
+}
+
+.middle-nav-wrapper > div.active svg {
+    stroke: black;
+}

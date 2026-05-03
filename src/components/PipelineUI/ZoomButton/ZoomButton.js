@@ -8,6 +8,9 @@ export default function ZoomButton() {
 
   return (
     <div className="zoom-btn-wrapper">
+      <div className="menu-wrapper">
+        
+      </div>
       <span>{Math.round(zoom * 100)}%</span>
       <ArrowDown />
     </div>

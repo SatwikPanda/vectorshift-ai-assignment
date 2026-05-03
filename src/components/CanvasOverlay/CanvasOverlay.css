@@ -1,0 +1,28 @@
+.canvas-overlay {
+  position: absolute;
+  inset: 0;
+  color: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0.75rem;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.canvas-overlay > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  pointer-events: auto;
+}
+
+
+.canvas-overlay > div:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}

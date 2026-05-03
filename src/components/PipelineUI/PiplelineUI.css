@@ -2,22 +2,3 @@
   position: absolute;
   inset: 0;
 }
-
-.internal-ui-wrapper {
-  color: white;
-  width: 100%;
-  height: 100%;
-  border-radius: 1rem;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
-  padding: 0.75rem;
-}
-
-.internal-ui-wrapper > div {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}

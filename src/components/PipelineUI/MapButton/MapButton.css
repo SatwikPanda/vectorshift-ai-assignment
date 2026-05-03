@@ -1,12 +1,17 @@
 .mapbutton-wrapper {
-  background: red;
   aspect-ratio: 1 / 1;
-  padding: 0.75rem;
+  padding: 0.6rem;
   border-radius: 9999px;
 
   display: flex;               /* center content */
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease-in;
+}
+
+.mapbutton-wrapper:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* target the inner div */

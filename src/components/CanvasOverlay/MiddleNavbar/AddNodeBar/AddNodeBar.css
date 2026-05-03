@@ -1,0 +1,94 @@
+
+
+.add-node-menu {
+  display: flex;
+  flex-direction: column;
+  background: #151515;
+  position: absolute;
+  justify-content: flex-start;
+  align-items: flex-start;
+  bottom: 4rem;
+  left: -4rem;
+  padding-top: 2rem;
+  width: 250px;
+  gap: 1.5rem;
+}
+
+
+
+
+/* SECTION */
+.section-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+/* SECTION HEADING */
+.section-heading {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  letter-spacing: 0.08em;
+}
+
+/* ITEM ROW */
+.section-container > div:not(.section-heading) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 6px 8px;
+  border-radius: 8px;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* HOVER */
+.section-container > div:not(.section-heading):hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ICON WRAPPER */
+.item-svg {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ICON COLORS (based on section) */
+.section-container:nth-child(1) .item-svg {
+  color: #22c55e; /* green */
+}
+
+.section-container:nth-child(2) .item-svg {
+  color: #eab308; /* yellow */
+}
+
+.section-container:nth-child(3) .item-svg {
+  color: #d946ef; /* pink/purple */
+}
+
+.section-container:nth-child(4) .item-svg {
+  color: #6366f1; /* blue */
+}
+
+/* TEXT */
+.item-text {
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+/* SVG SIZE NORMALIZATION */
+.item-svg svg {
+  width: 16px;
+  height: 16px;
+}
