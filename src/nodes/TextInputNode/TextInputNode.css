@@ -1,0 +1,5 @@
+.baseNode.baseNode--textInput { 
+  --node-accent: #0E210E; 
+  width: 330px;
+  max-width: none;
+}

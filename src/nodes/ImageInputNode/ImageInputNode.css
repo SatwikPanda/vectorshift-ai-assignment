@@ -1,0 +1,13 @@
+.baseNode--imageInput {
+  --node-accent: #0E210E;
+}
+
+.image-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16/10;
+  color: #94a3b8;
+  font-size: 11px;
+}

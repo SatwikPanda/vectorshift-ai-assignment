@@ -1,0 +1,54 @@
+.baseNode.baseNode--text {
+  --node-accent: #45451F;
+  width: 330px;
+  max-width: none;
+}
+
+.text-editor-container {
+  position: relative;
+  width: 100%;
+}
+
+.text-backdrop,
+.text-area-input {
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 12.5px;
+  font-family: "Geist", sans-serif;
+  border: none;
+  background: transparent;
+  min-height: 40px;
+  line-height: normal;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.text-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: transparent;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.text-area-input {
+  position: relative;
+  z-index: 2;
+  color: #e2e8f0;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  margin: 0;
+}
+
+.text-area-input:focus {
+}
+
+.text-highlight {
+  background: rgba(251, 191, 36, 0.25);
+  border-radius: 2px;
+  color: transparent;
+}

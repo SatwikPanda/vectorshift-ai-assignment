@@ -1,12 +1,14 @@
 // outputNode.js
 
-import { useState } from 'react';
-import { BaseNode } from './baseNode';
-import { SelectField, TextField } from '../components/fields';
+import { useState } from "react";
+import { BaseNode } from "./baseNode";
+import { SelectField, TextField } from "../components/fields";
 
-export const OutputNode = ({ id, data }) => {
-  const [currName, setCurrName] = useState(data?.outputName || id.replace('customOutput-', 'output_'));
-  const [outputType, setOutputType] = useState(data.outputType || 'Text');
+export const OutputNode = ({ id, data, selected }) => {
+  const [currName, setCurrName] = useState(
+    data?.outputName || id.replace("customOutput-", "output_"),
+  );
+  const [outputType, setOutputType] = useState(data.outputType || "Text");
 
   const handleNameChange = (e) => {
     setCurrName(e.target.value);
@@ -18,13 +20,19 @@ export const OutputNode = ({ id, data }) => {
 
   return (
     <BaseNode
-      title="Output"
+      title={currName}
+      onTitleChange={setCurrName}
       type="output"
       icon="↑"
       inputs={[{ id: `${id}-value` }]}
+      selected={selected}
     >
-      <TextField label="Name" value={currName} onChange={handleNameChange} />
-      <SelectField label="Type" value={outputType} onChange={handleTypeChange} options={[ "Text", "Image" ]} />
+      <SelectField
+        label="Type"
+        value={outputType}
+        onChange={handleTypeChange}
+        options={["Text", "Image"]}
+      />
     </BaseNode>
   );
-}
+};

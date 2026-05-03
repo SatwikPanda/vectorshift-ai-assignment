@@ -22,6 +22,7 @@ export default function MiddleNav() {
   return (
     <div className="middle-nav-wrapper">
       <div
+        id="add-node-btn"
         onClick={() => {
           setActiveTool(0);
           toggleAddNodeMenu();

@@ -7,7 +7,7 @@
   position: relative;
   min-width: 220px;
   max-width: 280px;
-  background: rgba(20, 20, 28, 0.85);
+  background: #0e0e0e;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -20,6 +20,14 @@
     0 4px 24px rgba(0, 0, 0, 0.45);
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
   overflow: visible;
+  cursor: pointer;
+}
+
+.baseNode.baseNode--selected {
+  border-color: var(--node-accent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--node-accent) 20%, transparent),
+    0 8px 32px rgba(0, 0, 0, 0.55);
 }
 
 .baseNode:hover {
@@ -33,25 +41,18 @@
 .baseNode-header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   padding: 10px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--node-accent) 12%, transparent),
-    transparent 60%
-  );
-  border-radius: 12px 12px 0 0;
+  position: absolute;
+  top: -2rem;
 }
 
 .baseNode-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 7px;
-  background: color-mix(in srgb, var(--node-accent) 18%, transparent);
+  width: 1rem;
+  height: 1rem;
   color: var(--node-accent);
   font-size: 13px;
   flex-shrink: 0;
@@ -59,10 +60,25 @@
 
 .baseNode-header strong {
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  color: #cbd5e1;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.baseNode-title-input {
+  background: rgba(12, 140, 233, 0.2);
+  border: 1px solid rgba(12, 140, 233, 0.2);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  padding: 2px 6px;
+  outline: none;
+  width: 100px;
+}
+.baseNode-title-input:focus {
+  border-color: rgba(12, 140, 233, 0.5);
 }
 
 /* ---- Body ---- */
@@ -70,7 +86,23 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 12px 14px 14px;
+  /* padding: 12px 14px 14px; */
+}
+
+.handle-icon {
+  background: var(--node-accent);
+  padding: 0.2rem;
+  position: absolute;
+  z-index: 999;
+  pointer-events: none;
+  border-radius: 9999px;
+  display: flex;
+  transform: translateY(-50%);
+  align-self: center;
+  justify-content: center;
+  > svg {
+    transform: scale(0.6);
+  }
 }
 
 /* ============================================
@@ -94,18 +126,14 @@
   font-size: 12.5px;
   font-family: "Geist", sans-serif;
   color: #e2e8f0;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 7px;
+  background: transparent;
+  border: none;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .baseNode-body input[type="text"]:focus,
 .baseNode-body textarea:focus,
 .baseNode-body select:focus {
-  border-color: var(--node-accent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--node-accent) 20%, transparent);
 }
 
 .baseNode-body select {
@@ -129,16 +157,15 @@
 .baseNode .react-flow__handle {
   width: 10px;
   height: 10px;
-  border: 2px solid var(--node-accent);
+  border: 1px solid var(--node-accent);
   background: #14141c;
   border-radius: 50%;
   transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .baseNode .react-flow__handle:hover {
-  background: var(--node-accent);
-  transform: scale(1.3);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--node-accent) 50%, transparent);
+
+  
 }
 
 /* ============================================

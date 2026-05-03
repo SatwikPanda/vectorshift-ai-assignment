@@ -7,10 +7,12 @@ import ReactFlow, { Controls, Background, MiniMap } from "reactflow";
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
-import { InputNode } from "../../nodes/inputNode";
-import { LLMNode } from "../../nodes/llmNode";
-import { OutputNode } from "../../nodes/outputNode";
-import { TextNode } from "../../nodes/textNode";
+import { TextInputNode } from "../../nodes/TextInputNode/TextInputNode";
+import { ImageInputNode } from "../../nodes/ImageInputNode/ImageInputNode";
+import { LLMNode } from "../../nodes/LLMNode/LLMNode";
+import { TextOutputNode } from "../../nodes/TextOutputNode/TextOutputNode";
+import { ImageOutputNode } from "../../nodes/ImageOutputNode/ImageOutputNode";
+import { TextNode } from "../../nodes/TextNode/TextNode";
 
 import "reactflow/dist/style.css";
 import "./PiplelineUI.css";
@@ -18,9 +20,11 @@ import "./PiplelineUI.css";
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
 const nodeTypes = {
-  customInput: InputNode,
+  textInput: TextInputNode,
+  imageInput: ImageInputNode,
   llm: LLMNode,
-  customOutput: OutputNode,
+  textOutput: TextOutputNode,
+  imageOutput: ImageOutputNode,
   text: TextNode,
 };
 
@@ -35,6 +39,7 @@ const selector = (state) => ({
   showMiniMap: state.showMiniMap,
   reactFlowInstance: state.reactFlowInstance,
   setReactFlowInstance: state.setReactFlowInstance,
+  activeTool: state.activeTool,
 });
 
 export const PipelineUI = () => {
@@ -50,6 +55,7 @@ export const PipelineUI = () => {
     showMiniMap,
     reactFlowInstance,
     setReactFlowInstance,
+    activeTool,
   } = useStore(selector, shallow);
 
   const getInitNodeData = (nodeID, type) => {
@@ -100,6 +106,15 @@ export const PipelineUI = () => {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
+  const onEdgeClick = useCallback(
+    (event, edge) => {
+      if (activeTool === 2) {
+        onEdgesChange([{ id: edge.id, type: "remove" }]);
+      }
+    },
+    [activeTool, onEdgesChange]
+  );
+
   return (
     <>
       <div ref={reactFlowWrapper} className="pipeline-ui">
@@ -111,11 +126,13 @@ export const PipelineUI = () => {
           onConnect={onConnect}
           onDrop={onDrop}
           onDragOver={onDragOver}
+          onEdgeClick={onEdgeClick}
           onInit={setReactFlowInstance}
           nodeTypes={nodeTypes}
           proOptions={proOptions}
           snapGrid={[gridSize, gridSize]}
-          connectionLineType="smoothstep"
+          connectionLineType="simplebezier"
+          deleteKeyCode={activeTool === 1 ? ['Backspace', 'Delete'] : null}
         >
           <Background
             color="rgb(255,255,255, 0.5)"

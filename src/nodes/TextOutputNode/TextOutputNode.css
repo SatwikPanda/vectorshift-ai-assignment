@@ -1,0 +1,12 @@
+.baseNode--textOutput {
+  --node-accent: #1F1F45;
+}
+
+.text-output-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  color: #94a3b8;
+  font-size: 11px;
+}

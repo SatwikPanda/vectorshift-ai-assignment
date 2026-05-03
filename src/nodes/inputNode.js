@@ -1,12 +1,16 @@
 // inputNode.js
 
-import { useState } from 'react';
-import { BaseNode } from './baseNode';
-import { SelectField, TextField } from '../components/fields';
+import { useState } from "react";
+import { BaseNode } from "./baseNode";
+import { SelectField, TextField } from "../components/fields";
+import { ReactComponent as TextInputSVG } from "../assets/icons/AddNodeMenu/text-input.svg";
+import { ReactComponent as FileInputSVG } from "../assets/icons/AddNodeMenu/file-input.svg";
 
-export const InputNode = ({ id, data }) => {
-  const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
-  const [inputType, setInputType] = useState(data.inputType || 'Text');
+export const InputNode = ({ id, data, selected }) => {
+  const [currName, setCurrName] = useState(
+    data?.inputName || id.replace("customInput-", "input_"),
+  );
+  const [inputType, setInputType] = useState(data.inputType || "Text");
 
   const handleNameChange = (e) => {
     setCurrName(e.target.value);
@@ -18,18 +22,22 @@ export const InputNode = ({ id, data }) => {
 
   return (
     <BaseNode
-      title="Input"
+      title={currName}
+      onTitleChange={setCurrName}
       type="input"
-      icon="↓"
+      icon={inputType === "Text" ? <TextInputSVG /> : <FileInputSVG />}
       outputs={[{ id: `${id}-value` }]}
+      selected={selected}
     >
-      <TextField label="Name" value={currName} onChange={handleNameChange} />
-      <SelectField 
+      {inputType === "Text" ? (
+        <TextField value={currName} onChange={handleNameChange} />
+      ) : null}
+      <SelectField
         label="Type"
         value={inputType}
         onChange={handleTypeChange}
-        options={[ "Text", "File" ]}
+        options={["Text", "File"]}
       />
     </BaseNode>
   );
-}
+};

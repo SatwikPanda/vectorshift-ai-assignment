@@ -18,8 +18,8 @@ const NODE_ITEMS = [
   {
     section: "INPUT",
     items: [
-      { type: "customInput", label: "Text Input", icon: TextInputSVG, data: { inputType: "Text" } },
-      { type: "customInput", label: "File Input", icon: FileInputSVG, data: { inputType: "File" } },
+      { type: "textInput", label: "Text Input", icon: TextInputSVG, data: {} },
+      { type: "imageInput", label: "Image Input", icon: FileInputSVG, data: {} },
     ],
   },
   {
@@ -37,8 +37,8 @@ const NODE_ITEMS = [
   {
     section: "OUTPUT",
     items: [
-      { type: "customOutput", label: "Image Output", icon: ImageOutputSVG, data: { outputType: "Image" } },
-      { type: "customOutput", label: "Text Output", icon: TextOutputSVG, data: { outputType: "Text" } },
+      { type: "imageOutput", label: "Image Output", icon: ImageOutputSVG, data: {} },
+      { type: "textOutput", label: "Text Output", icon: TextOutputSVG, data: {} },
     ],
   },
 ];
@@ -80,7 +80,13 @@ export default function AddNodeBar({ isOpen, onClose }) {
   // click outside
   useEffect(() => {
     const handleClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      const addNodeBtn = document.getElementById("add-node-btn");
+      if (
+        menuRef.current && 
+        !menuRef.current.contains(e.target) &&
+        addNodeBtn &&
+        !addNodeBtn.contains(e.target)
+      ) {
         onClose();
       }
     };
