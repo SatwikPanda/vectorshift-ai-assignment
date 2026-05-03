@@ -1,0 +1,16 @@
+
+
+.zoom-btn-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-left: 1rem;
+    padding-block: 0.5rem;
+    padding-right: 0.75rem;
+    border-radius: 9999px   ;
+    background: #ff0000;
+}
+
+.zoom-btn-wrapper > span{
+    font-size: 0.75rem;
+}
