@@ -24,17 +24,13 @@
 }
 
 .baseNode.baseNode--selected {
-  border-color: var(--node-accent);
-  box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--node-accent) 20%, transparent),
-    0 8px 32px rgba(0, 0, 0, 0.55);
+  border-color: #3B82F6;
+  border-width: 0.2rem;
 }
 
 .baseNode:hover {
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 8px 32px rgba(0, 0, 0, 0.55);
+  border-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.01);
 }
 
 /* ---- Title bar ---- */

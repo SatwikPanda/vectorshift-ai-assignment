@@ -1,4 +1,8 @@
-
+.zoom-btn-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
 
 .zoom-btn-wrapper {
     display: flex;
@@ -19,8 +23,5 @@
 .zoom-btn-wrapper > span{
     font-size: 0.75rem;
     width: 2rem;
-}
-
-.menu-wrapper {
-    display: relative;
+    user-select: none;
 }

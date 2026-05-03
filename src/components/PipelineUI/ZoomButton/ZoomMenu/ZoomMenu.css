@@ -1,0 +1,45 @@
+.zoom-menu-container {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  right: 0;
+  display: none;
+  flex-direction: column;
+  background-color: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.5rem;
+  min-width: 220px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  font-family: inherit;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.zoom-menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #eeeeee;
+  transition: background-color 0.2s ease;
+}
+
+.zoom-menu-item:hover:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.zoom-menu-item.disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.zoom-menu-shortcut {
+  color: #777777;
+  font-size: 0.75rem;
+  font-weight: 400;
+  pointer-events: none;
+}

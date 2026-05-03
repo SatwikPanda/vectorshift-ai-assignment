@@ -9,8 +9,6 @@ export default function MapButton() {
   const toggleMiniMap = useStore((s) => s.toggleMiniMap);
   const showMiniMap = useStore((s) => s.showMiniMap);
 
-  
-
   useEffect(() => {
     const gsap = gsapInit();
 
@@ -28,23 +26,26 @@ export default function MapButton() {
           el,
           {
             autoAlpha: 0,
-            scale: 0.85,
-            transformOrigin: "bottom",
+            scale: 0.95,
+            y: 10,
+            transformOrigin: "bottom right",
           },
           {
             autoAlpha: 1,
             scale: 1,
-            duration: 0.35,
+            y: 0,
+            duration: 0.2,
             ease: "expressive-fast-spatial",
           }
         );
       } else {
-        // EXIT animation (same easing direction)
+        // EXIT animation
         gsap.to(el, {
           autoAlpha: 0,
-          scale: 0.85,
-          duration: 0.25, // slightly faster exit feels better
-          ease: "expressive-fast-spatial",
+          scale: 0.95,
+          y: 10,
+          duration: 0.2,
+          ease: "expressive-fast-effects",
         });
       }
     });

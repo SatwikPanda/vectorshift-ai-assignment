@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import { BaseNode } from '../baseNode';
-import { TextArea } from '../../components/fields';
 import { useUpdateNodeInternals } from 'reactflow';
 import { useStore } from '../../store';
 
@@ -14,10 +13,12 @@ export const TextNode = ({ id, data, selected }) => {
   const [currText, setCurrText] = useState(data?.text || '{{input}}');
   const [variables, setVariables] = useState([]);
   const textareaRef = useRef(null);
+  const prevEdgesRef = useRef([]);
 
   const nodes = useStore(state => state.nodes);
   const edges = useStore(state => state.edges);
   const onConnect = useStore(state => state.onConnect);
+  const onEdgesChange = useStore(state => state.onEdgesChange);
   const updateNodeInternals = useUpdateNodeInternals();
 
   useEffect(() => {
@@ -25,7 +26,6 @@ export const TextNode = ({ id, data, selected }) => {
     const regex = /\{\{\s*([a-zA-Z_$][a-zA-Z_$0-9]*)\s*\}\}/g;
     const matches = [...currText.matchAll(regex)].map(match => match[1]);
     const uniqueVariables = [...new Set(matches)];
-    console.log("TextNode useEffect", { currText, matches, uniqueVariables });
     setVariables(uniqueVariables);
     
     // Auto-resize
@@ -70,14 +70,56 @@ export const TextNode = ({ id, data, selected }) => {
         });
       }
     });
-  }, [variables, nodes, edges, id, onConnect]);
+
+    // Auto-disconnect edges that no longer have a corresponding variable
+    const edgesToRemove = edges.filter(e => {
+      if (e.target === id && e.targetHandle && e.targetHandle.startsWith(`${id}-var-`)) {
+        const v = e.targetHandle.replace(`${id}-var-`, '');
+        return !variables.includes(v);
+      }
+      return false;
+    });
+
+    if (edgesToRemove.length > 0) {
+      onEdgesChange(edgesToRemove.map(e => ({ id: e.id, type: 'remove' })));
+    }
+  }, [variables, nodes, edges, id, onConnect, onEdgesChange]);
+
+  useEffect(() => {
+    const currentTargetEdges = edges.filter(e => e.target === id);
+    const prevTargetEdges = prevEdgesRef.current;
+
+    // Check for removed edges
+    const removedEdges = prevTargetEdges.filter(pe => !currentTargetEdges.some(ce => ce.id === pe.id));
+    
+    let newText = currText;
+    let textChanged = false;
+
+    removedEdges.forEach(re => {
+      if (re.targetHandle && re.targetHandle.startsWith(`${id}-var-`)) {
+        const v = re.targetHandle.replace(`${id}-var-`, '');
+        // If v is still in variables, it means the edge was removed externally (e.g. cut connection)
+        if (variables.includes(v)) {
+          // Remove {{v}} from text
+          const regex = new RegExp(`\\{\\{\\s*${v}\\s*\\}\\}`, 'g');
+          newText = newText.replace(regex, '');
+          textChanged = true;
+        }
+      }
+    });
+
+    if (textChanged) {
+      setCurrText(newText);
+    }
+
+    prevEdgesRef.current = currentTargetEdges;
+  }, [edges, id, variables, currText]);
 
   const handleTextChange = (e) => {
     setCurrText(e.target.value);
   };
 
   const dynamicInputs = variables.map(v => ({ id: `${id}-var-${v}`, label: v }));
-  console.log("TextNode render", { id, currText, variables, dynamicInputs });
 
   // Render text with highlighting
   const renderHighlightedText = () => {
@@ -116,3 +158,4 @@ export const TextNode = ({ id, data, selected }) => {
     </BaseNode>
   );
 }
+

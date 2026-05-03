@@ -139,7 +139,6 @@ export const PipelineUI = () => {
             gap={gridSize}
             variant="dots"
           />
-          <Controls />
           <MiniMap
             nodeColor={(node) => {
               if (node.type === "input") return "#6ede87";
