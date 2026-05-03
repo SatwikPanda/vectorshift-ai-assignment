@@ -2,7 +2,7 @@
 // Displays the drag-and-drop UI
 // --------------------------------------------------
 
-import { useState, useRef, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import ReactFlow, { Controls, Background, MiniMap } from "reactflow";
 import { shallow } from "zustand/shallow";
 
@@ -33,11 +33,12 @@ const selector = (state) => ({
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
   showMiniMap: state.showMiniMap,
+  reactFlowInstance: state.reactFlowInstance,
+  setReactFlowInstance: state.setReactFlowInstance,
 });
 
 export const PipelineUI = () => {
   const reactFlowWrapper = useRef(null);
-  const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const {
     nodes,
     edges,
@@ -47,6 +48,8 @@ export const PipelineUI = () => {
     onEdgesChange,
     onConnect,
     showMiniMap,
+    reactFlowInstance,
+    setReactFlowInstance,
   } = useStore(selector, shallow);
 
   const getInitNodeData = (nodeID, type) => {
@@ -75,12 +78,15 @@ export const PipelineUI = () => {
           y: event.clientY - reactFlowBounds.top,
         });
 
+        // Extract extra data (inputType, outputType, etc.) from the drag payload
+        const { nodeType, ...extraData } = appData;
+
         const nodeID = getNodeID(type);
         const newNode = {
           id: nodeID,
           type,
           position,
-          data: getInitNodeData(nodeID, type),
+          data: { ...getInitNodeData(nodeID, type), ...extraData },
         };
 
         addNode(newNode);

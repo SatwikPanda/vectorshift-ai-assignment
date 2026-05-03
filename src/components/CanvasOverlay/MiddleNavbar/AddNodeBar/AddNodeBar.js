@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useStore } from "../../../../store";
 import "./AddNodeBar.css";
 import gsapInit from "../../../../animations/gsapInit";
@@ -13,9 +13,43 @@ import { ReactComponent as AddLLMSVG } from "../../../../assets/icons/AddNodeMen
 import { ReactComponent as ImageOutputSVG } from "../../../../assets/icons/AddNodeMenu/img-output.svg";
 import { ReactComponent as TextOutputSVG } from "../../../../assets/icons/AddNodeMenu/text-output.svg";
 
+// Maps AddNodeBar items → React Flow node types + initial data overrides
+const NODE_ITEMS = [
+  {
+    section: "INPUT",
+    items: [
+      { type: "customInput", label: "Text Input", icon: TextInputSVG, data: { inputType: "Text" } },
+      { type: "customInput", label: "File Input", icon: FileInputSVG, data: { inputType: "File" } },
+    ],
+  },
+  {
+    section: "MODIFY",
+    items: [
+      { type: "text", label: "Modify Text", icon: ModifyTextSVG, data: {} },
+    ],
+  },
+  {
+    section: "LLM",
+    items: [
+      { type: "llm", label: "LLM", icon: AddLLMSVG, data: {} },
+    ],
+  },
+  {
+    section: "OUTPUT",
+    items: [
+      { type: "customOutput", label: "Image Output", icon: ImageOutputSVG, data: { outputType: "Image" } },
+      { type: "customOutput", label: "Text Output", icon: TextOutputSVG, data: { outputType: "Text" } },
+    ],
+  },
+];
+
 export default function AddNodeBar({ isOpen, onClose }) {
   const menuRef = useRef();
   const tl = useRef();
+
+  const getNodeID = useStore((s) => s.getNodeID);
+  const addNode = useStore((s) => s.addNode);
+  const reactFlowInstance = useStore((s) => s.reactFlowInstance);
 
   useEffect(() => {
     const gsap = gsapInit();
@@ -58,6 +92,48 @@ export default function AddNodeBar({ isOpen, onClose }) {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [isOpen, onClose]);
 
+  // Click-to-add: places the node at the center of the visible viewport
+  const handleAddNode = useCallback(
+    (nodeType, extraData = {}) => {
+      if (!reactFlowInstance) return;
+
+      const { x, y, zoom } = reactFlowInstance.getViewport();
+      // Get the React Flow container dimensions
+      const rfPane = document.querySelector(".react-flow");
+      const bounds = rfPane
+        ? rfPane.getBoundingClientRect()
+        : { width: 800, height: 600 };
+
+      // Convert the center of the screen to flow coordinates
+      const centerPosition = reactFlowInstance.project({
+        x: bounds.width / 2,
+        y: bounds.height / 2,
+      });
+
+      const nodeID = getNodeID(nodeType);
+      const newNode = {
+        id: nodeID,
+        type: nodeType,
+        position: centerPosition,
+        data: { id: nodeID, nodeType, ...extraData },
+      };
+
+      addNode(newNode);
+      onClose();
+    },
+    [reactFlowInstance, getNodeID, addNode, onClose],
+  );
+
+  // Drag handler: sets data transfer so PipelineUI's onDrop can pick it up
+  const onDragStart = useCallback((event, nodeType, extraData = {}) => {
+    const appData = { nodeType, ...extraData };
+    event.dataTransfer.setData(
+      "application/reactflow",
+      JSON.stringify(appData),
+    );
+    event.dataTransfer.effectAllowed = "move";
+  }, []);
+
   return (
     <div
       ref={menuRef}
@@ -66,63 +142,28 @@ export default function AddNodeBar({ isOpen, onClose }) {
         pointerEvents: isOpen ? "auto" : "none",
       }}
     >
-      <div className="section-container">
-        <span className="section-heading">INPUT</span>
-        <div>
-          {" "}
-          <div className="item-svg">
-            <TextInputSVG />
-          </div>{" "}
-          <span className="item-text">Text Input</span>{" "}
+      {NODE_ITEMS.map((section) => (
+        <div className="section-container" key={section.section}>
+          <span className="section-heading">{section.section}</span>
+          {section.items.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={`${item.type}-${item.label}`}
+                draggable
+                onDragStart={(e) => onDragStart(e, item.type, item.data)}
+                onClick={() => handleAddNode(item.type, item.data)}
+              >
+                {" "}
+                <div className="item-svg">
+                  <Icon />
+                </div>{" "}
+                <span className="item-text">{item.label}</span>{" "}
+              </div>
+            );
+          })}
         </div>
-        <div>
-          {" "}
-          <div className="item-svg">
-            <FileInputSVG />
-          </div>{" "}
-          <span className="item-text">File Input</span>{" "}
-        </div>
-      </div>
-
-      <div className="section-container">
-        <span className="section-heading">MODIFY</span>
-        <div>
-          {" "}
-          <div className="item-svg">
-            <ModifyTextSVG />
-          </div>{" "}
-          <span className="item-text">Modify Text</span>{" "}
-        </div>
-      </div>
-
-      <div className="section-container">
-        <span className="section-heading">LLM</span>
-        <div>
-          {" "}
-          <div className="item-svg">
-            <AddLLMSVG />
-          </div>{" "}
-          <span className="item-text">LLM</span>{" "}
-        </div>
-      </div>
-
-      <div className="section-container">
-        <span className="section-heading">OUTPUT</span>
-        <div>
-          {" "}
-          <div className="item-svg">
-            <ImageOutputSVG />
-          </div>{" "}
-          <span className="item-text">Image Output</span>{" "}
-        </div>
-        <div>
-          {" "}
-          <div className="item-svg">
-            <TextOutputSVG />
-          </div>{" "}
-          <span className="item-text">Text Output</span>{" "}
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

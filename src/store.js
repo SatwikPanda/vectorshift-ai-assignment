@@ -12,6 +12,11 @@ export const useStore = create((set, get) => ({
   nodes: [],
   edges: [],
 
+  reactFlowInstance: null,
+  setReactFlowInstance: (instance) => {
+    set({ reactFlowInstance: instance });
+  },
+
   activeTool: -1,
   showAddNodeMenu: false,
 

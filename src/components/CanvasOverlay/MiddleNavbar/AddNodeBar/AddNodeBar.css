@@ -42,8 +42,12 @@
   padding: 6px 8px;
   border-radius: 8px;
 
-  cursor: pointer;
+  cursor: grab;
   transition: background 0.2s ease;
+}
+
+.section-container > div:not(.section-heading):active {
+  cursor: grabbing;
 }
 
 /* HOVER */
