@@ -1,7 +1,6 @@
 // inputNode.js
 
 import { useState } from 'react';
-import "./baseNode.css";
 import { BaseNode } from './baseNode';
 import { SelectField, TextField } from '../components/fields';
 
@@ -20,11 +19,13 @@ export const InputNode = ({ id, data }) => {
   return (
     <BaseNode
       title="Input"
+      type="input"
+      icon="↓"
       outputs={[{ id: `${id}-value` }]}
     >
-      <TextField label="Name:" value={currName} onChange={handleNameChange} />
+      <TextField label="Name" value={currName} onChange={handleNameChange} />
       <SelectField 
-        label="Type: "
+        label="Type"
         value={inputType}
         onChange={handleTypeChange}
         options={[ "Text", "File" ]}

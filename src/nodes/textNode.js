@@ -14,9 +14,11 @@ export const TextNode = ({ id, data }) => {
   return (
     <BaseNode
       title="Text"
+      type="text"
+      icon="T"
       outputs={[{ id: `${id}-output` }]}
     >
-      <TextField label="Text: " value={currText} onChange={handleTextChange} />
+      <TextField label="Text" value={currText} onChange={handleTextChange} />
     </BaseNode>
   );
 }

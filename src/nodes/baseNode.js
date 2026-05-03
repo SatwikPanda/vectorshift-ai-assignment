@@ -3,14 +3,17 @@ import "./baseNode.css";
 
 export const BaseNode = ({ 
   title,
+  icon,
+  type,
   inputs = [],
   outputs = [],
   children
 }) => {
 
+  const typeClass = type ? `baseNode--${type}` : '';
 
   return(
-    <div className=''>
+    <div className={`baseNode ${typeClass}`}>
       {inputs.map((input, i)=>(
         <Handle 
           key={input.id}
@@ -22,12 +25,13 @@ export const BaseNode = ({
       ))}
 
       {/* Title */}
-      <div>
+      <div className="baseNode-header">
+        {icon && <div className="baseNode-icon">{icon}</div>}
         <strong>{title}</strong>
       </div>
 
       {/* Children */}
-      <div>{children}</div>
+      <div className="baseNode-body">{children}</div>
 
       {/* Outputs */}
       {outputs.map((output, i) => (

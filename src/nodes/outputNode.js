@@ -19,10 +19,12 @@ export const OutputNode = ({ id, data }) => {
   return (
     <BaseNode
       title="Output"
+      type="output"
+      icon="↑"
       inputs={[{ id: `${id}-value` }]}
     >
-      <TextField label="Name:" value={currName} onChange={handleNameChange} />
-      <SelectField label="Type:" value={outputType} onChange={handleTypeChange} options={[ "Text", "Image" ]} />
+      <TextField label="Name" value={currName} onChange={handleNameChange} />
+      <SelectField label="Type" value={outputType} onChange={handleTypeChange} options={[ "Text", "Image" ]} />
     </BaseNode>
   );
 }
